@@ -3,7 +3,7 @@ Descriere: Permite utilizatorului să încarce și să editeze fotografii (i
 
 DONE 1p - încărcare imagine prin drag and drop sau control input de tip file și salvare rezultat final
 DONE 1p - implementare selecție (inițial toată imaginea, modificare cu mouse down - mouse up, similar cu mecanismul de selecție din Microsoft Paint)
-     1p - crop interactiv (utilizatorul trebuie să poată selecta zona din imagine cu ajutorul mouseului)
+DONE 1p - crop interactiv (utilizatorul trebuie să poată selecta zona din imagine cu ajutorul mouseului)
 DONE 1.5p - aplicare efect ales de către utilizator pe o zonă selectată din imagine
 DONE 1p - scalare imagine cu păstrarea proporțiilor (utilizatorul va furniza noua lățime sau noua lungime)
 DONE 1p - adăugare text (utilizatorul furnizează textul, dimensiunea, culoarea, poziția)
