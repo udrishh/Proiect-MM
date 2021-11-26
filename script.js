@@ -300,6 +300,9 @@ function scalareImagine() {
     img.width = canvas.width;
     img.height = canvas.height;
     document.getElementById("dimensiuniActuale").innerText = `Dimensiunile imaginii sunt: ${img.width} x ${img.height}`;
+    //salvare modificari canvas in imagine
+    context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    img.src = canvas.toDataURL();
     selectareTotala();
 }
 
