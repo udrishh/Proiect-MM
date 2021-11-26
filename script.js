@@ -9,6 +9,8 @@ var selectieY;
 var selectieW;
 var selectieH;
 
+var scaleable = true;
+
 //incarcare imagine in browser
 document.getElementById("fileBrowser").addEventListener("change", function (e) {
     let reader = new FileReader();
@@ -265,28 +267,34 @@ function adaugareText() {
 function calculareLatime() {
     if (document.getElementById("scalareLungime").value < 100 || document.getElementById("scalareLungime").value > 2000) {
         alert("Dimensiuni incorecte!");
+        scaleable = false;
         return;
     }
+    scaleable = true;
     lungimeNoua = document.getElementById("scalareLungime").value;
     lungimeVeche = img.height;
-
     modificareProcentuala = lungimeNoua / lungimeVeche;
-    document.getElementById("scalareLatime").value = Math.floor(document.getElementById("scalareLatime").value * modificareProcentuala);
+    document.getElementById("scalareLatime").value = Math.floor(img.width * modificareProcentuala);
 }
 
 function calculareLungime() {
     if (document.getElementById("scalareLatime").value < 100 || document.getElementById("scalareLatime").value > 2000) {
         alert("Dimensiuni incorecte!");
+        scaleable = false;
         return;
     }
+    scaleable = true;
     latimeNoua = document.getElementById("scalareLatime").value;
     latimeVeche = img.width;
-
     modificareProcentuala = latimeNoua / latimeVeche;
-    document.getElementById("scalareLungime").value = Math.floor(document.getElementById("scalareLungime").value * modificareProcentuala);
+    document.getElementById("scalareLungime").value = Math.floor(img.height * modificareProcentuala);
 }
 
 function scalareImagine() {
+    if (!scaleable) {
+        alert("Dimensiuni incorecte!");
+        return;
+    }
     canvas.height = document.getElementById("scalareLungime").value;
     canvas.width = document.getElementById("scalareLatime").value;
     img.width = canvas.width;
@@ -303,7 +311,6 @@ function descarcaImagine() {
 function desenareHistograma() {
     //SETEAZA SELECTIA
     if (selectieW !== 0 && selectieH !== 0) {
-        // console.log("selectie histograma", selectieX, selectieY, selectieW, selectieH);
         selectiePixeli = context.getImageData(selectieX, selectieY, selectieW, selectieH);
         nrPixeli = selectieW * selectieH;
 
@@ -360,6 +367,10 @@ document.getElementById("btnSepia").addEventListener("click", sepiaSelectie);
 document.getElementById("btnAdaugareText").addEventListener("click", adaugareText);
 document.getElementById("btnScalare").addEventListener("click", scalareImagine);
 document.getElementById("btnLinkDownload").addEventListener("click", descarcaImagine);
+
+//evenimente scalare
+document.getElementById('scalareLungime').addEventListener('change', calculareLatime);
+document.getElementById('scalareLatime').addEventListener('change', calculareLungime);
 
 //evenimente trasare selectie pe canvas
 document.getElementById('canvas').addEventListener('mousedown', function (e) { handleMouseDown(e); });
