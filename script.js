@@ -15,8 +15,6 @@ document.getElementById("fileBrowser").addEventListener("change", function (e) {
     reader.addEventListener('load', function (event) {
         img = new Image();
         img.src = event.target.result;
-        console.log(img.src);
-        //console.log(img.src); ///ASYNC
         //creare copie imagine
         copieImg = new Image();
         copieImg.src = img.src;
@@ -37,6 +35,7 @@ document.getElementById("fileBrowser").addEventListener("change", function (e) {
         document.getElementById("dimensiuniActuale").innerText = `Dimensiunile imaginii sunt: ${img.width} x ${img.height}`;
         //selectareTotala();
         context.drawImage(img, 0, 0, canvas.width, canvas.height);
+        console.log('Am desenat imaginea pe canvas!');
         //resetare selectie
         selectieX = 0;
         selectieY = 0;
@@ -49,10 +48,7 @@ document.getElementById("fileBrowser").addEventListener("change", function (e) {
         context.rect(selectieX, selectieY, selectieW, selectieH);
         context.stroke();
 
-        //selectie totala
-        //console.log("selectie totala la incarcare", selectieX, selectieY, selectieW, selectieH);
-        console.log("dimensiuni imagine", img.height, img.width);
-        selectareTotala();
+
         //activare descarcare imagine
         document.getElementById("btnLinkDownload").hidden = false;
         //setare dimensiuni scalare
@@ -65,6 +61,10 @@ document.getElementById("fileBrowser").addEventListener("change", function (e) {
         document.getElementById("efectContainer").hidden = false;
         document.getElementById("textContainer").hidden = false;
         document.getElementById("scaleContainer").hidden = false;
+
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+        //selectie totala
+        selectareTotala();
     });
     reader.readAsDataURL(e.target.files[0]);
 });
@@ -251,6 +251,7 @@ function adaugareText() {
         return;
     }
     //desenare text
+    context.drawImage(img, 0, 0, canvas.width, canvas.height);
     context.font = `${document.getElementById("dimensiuneText").value}px Arial`;
     context.fillStyle = document.getElementById("culoareText").value;
     context.textAlign = "center";
@@ -258,6 +259,7 @@ function adaugareText() {
 
     //salvare imagine din canvas
     img.src = canvas.toDataURL();
+    selectareTotala();
 }
 
 function calculareLatime() {
