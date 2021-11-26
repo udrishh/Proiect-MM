@@ -37,7 +37,6 @@ document.getElementById("fileBrowser").addEventListener("change", function (e) {
         document.getElementById("dimensiuniActuale").innerText = `Dimensiunile imaginii sunt: ${img.width} x ${img.height}`;
         //selectareTotala();
         context.drawImage(img, 0, 0, canvas.width, canvas.height);
-        console.log('Am desenat imaginea pe canvas!');
         //resetare selectie
         selectieX = 0;
         selectieY = 0;
@@ -265,7 +264,7 @@ function adaugareText() {
 }
 
 function calculareLatime() {
-    if (document.getElementById("scalareLungime").value < 100 || document.getElementById("scalareLungime").value > 2000) {
+    if (document.getElementById("scalareLungime").value < 50 || document.getElementById("scalareLungime").value > 2000) {
         alert("Dimensiuni incorecte!");
         scaleable = false;
         return;
@@ -278,7 +277,7 @@ function calculareLatime() {
 }
 
 function calculareLungime() {
-    if (document.getElementById("scalareLatime").value < 100 || document.getElementById("scalareLatime").value > 2000) {
+    if (document.getElementById("scalareLatime").value < 50 || document.getElementById("scalareLatime").value > 2000) {
         alert("Dimensiuni incorecte!");
         scaleable = false;
         return;
@@ -360,6 +359,34 @@ function desenareHistograma() {
     }
 }
 
+function decupareSelectie() {
+    if (selectieH < 50 && selectieW < 50) {
+        alert('Selectia este prea mica pentru a fi decupata');
+        return;
+    }
+    //memorare selectie
+    selectiePixeli = context.getImageData(selectieX + 2, selectieY + 2, selectieW - 2, selectieH - 2);
+    //redimensionare canvas
+    canvas.height = selectieH - 4;
+    canvas.width = selectieW - 4;
+    //punere selectie pe canvas
+    context.putImageData(selectiePixeli, 0, 0);
+    //salvare modificari canvas in imagine
+    img.src = canvas.toDataURL();
+    img.height = canvas.height;
+    img.width = canvas.width;
+    selectareTotala();
+    //determinare si afisare pozitii maxime pentru introducerea textului
+    document.getElementById("pozitiiMaxime").innerText = `(x maxim: ${canvas.height}; y maxim: ${canvas.width})`;
+    document.getElementById("xText").max = canvas.width;
+    document.getElementById("yText").max = canvas.height;
+    //determinare si afisare dimensiuni imagine incarcata
+    document.getElementById("dimensiuniActuale").innerText = `Dimensiunile imaginii sunt: ${img.width} x ${img.height}`;
+    //setare dimensiuni scalare
+    document.getElementById("scalareLungime").value = img.height;
+    document.getElementById("scalareLatime").value = img.width;
+}
+
 //evenimente butoane
 document.getElementById("btnSelectareTotala").addEventListener("click", selectareTotala);
 document.getElementById("btnStergereSelectie").addEventListener("click", stergereSelectie);
@@ -370,6 +397,7 @@ document.getElementById("btnSepia").addEventListener("click", sepiaSelectie);
 document.getElementById("btnAdaugareText").addEventListener("click", adaugareText);
 document.getElementById("btnScalare").addEventListener("click", scalareImagine);
 document.getElementById("btnLinkDownload").addEventListener("click", descarcaImagine);
+document.getElementById('btnDecupareSelectie').addEventListener('click', decupareSelectie);
 
 //evenimente scalare
 document.getElementById('scalareLungime').addEventListener('change', calculareLatime);
@@ -379,47 +407,3 @@ document.getElementById('scalareLatime').addEventListener('change', calculareLun
 document.getElementById('canvas').addEventListener('mousedown', function (e) { handleMouseDown(e); });
 document.getElementById('canvas').addEventListener('mousemove', function (e) { handleMouseMove(e); });
 document.getElementById('canvas').addEventListener('mouseup', function (e) { handleMouseUp(e); });
-
-// TODO: verifica daca s a modificat selectia sau daca exista selectie
-
-// //evenimente drag and drop
-// document.getElementById("canvas").addEventListener("dragover", (event) => event.preventDefault());
-// document.getElementById("canvas").addEventListener("drop", (event) => {
-//     event.preventDefault();
-//     img = new Image();
-//     document.getElementById("textDragAndDrop").innerText = "";
-
-//     const droppedFile = event.dataTransfer.files[0];
-//     const imgDropped = document.createElement("img");
-//     imgDropped.src = URL.createObjectURL(droppedFile);
-//     img.src = imgDropped.src;
-
-//     copieImg = new Image();
-//         copieImg.src = img.src;
-//         //redimensionare canvas pastrand proportiile imaginii
-//         canvas.width = img.width;
-//         canvas.height = img.height;
-//         while (canvas.width > 750 || canvas.height > 600) {
-//             canvas.width = canvas.width * 0.9;
-//             canvas.height = canvas.height * 0.9;
-//         }
-//         //determinare si afisare pozitii maxime pentru introducerea textului
-//         document.getElementById("pozitiiMaxime").innerText = `(x maxim: ${canvas.height}; y maxim: ${canvas.width})`;
-//         document.getElementById("xText").max = canvas.width;
-//         document.getElementById("yText").max = canvas.height;
-//         //determinare si afisare dimensiuni imagine incarcata
-//         document.getElementById("dimensiuniActuale").innerText = `Dimensiunile imaginii sunt: ${img.width} x ${img.height}`;
-//         selectareTotala();
-//         //activare descarcare imagine
-//         document.getElementById("btnLinkDownload").hidden = false;
-//         //setare dimensiuni scalare
-//         document.getElementById("scalareLungime").value = img.height;
-//         document.getElementById("scalareLatime").value = img.width;
-
-//         //activare setari
-//         document.getElementById("histogramContainer").hidden = false;
-//         document.getElementById("selectionContainer").hidden = false;
-//         document.getElementById("efectContainer").hidden = false;
-//         document.getElementById("textContainer").hidden = false;
-//         document.getElementById("scaleContainer").hidden = false;
-// });
