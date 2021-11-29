@@ -11,61 +11,60 @@ var selectieH;
 
 var scaleable = true;
 
-//incarcare imagine in browser
+// incarcare imagine in browser
 document.getElementById("fileBrowser").addEventListener("change", function (e) {
     let reader = new FileReader();
     reader.addEventListener('load', function (event) {
         img = new Image();
         img.src = event.target.result;
-        //creare copie imagine
-        copieImg = new Image();
-        copieImg.src = img.src;
-        img.width = 500;
-        img.height = 500;
-        //redimensionare canvas pastrand proportiile imaginii
-        canvas.width = img.width;
-        canvas.height = img.height;
-        // while (canvas.width > 750 || canvas.height > 600) {
-        //     canvas.width = canvas.width * 0.9;
-        //     canvas.height = canvas.height * 0.9;
-        // }
-        //determinare si afisare pozitii maxime pentru introducerea textului
-        document.getElementById("pozitiiMaxime").innerText = `(x maxim: ${canvas.height}; y maxim: ${canvas.width})`;
-        document.getElementById("xText").max = canvas.width;
-        document.getElementById("yText").max = canvas.height;
-        //determinare si afisare dimensiuni imagine incarcata
-        document.getElementById("dimensiuniActuale").innerText = `Dimensiunile imaginii sunt: ${img.width} x ${img.height}`;
-        //selectareTotala();
-        context.drawImage(img, 0, 0, canvas.width, canvas.height);
-        //resetare selectie
-        selectieX = 0;
-        selectieY = 0;
-        selectieW = canvas.width;
-        selectieH = canvas.height;
-        //desenare selectie totala
-        context.beginPath();
-        context.strokeStyle = "magenta";
-        context.lineWidth = 3;
-        context.rect(selectieX, selectieY, selectieW, selectieH);
-        context.stroke();
+        img.onload = function () {
+            //creare copie imagine
+            copieImg = new Image();
+            copieImg.src = img.src;
+            //redimensionare canvas pastrand proportiile imaginii
+            canvas.width = img.width;
+            canvas.height = img.height;
 
+            while (canvas.width > 750 || canvas.height > 750) {
+                canvas.width = canvas.width * 0.9;
+                canvas.height = canvas.height * 0.9;
+                img.width = canvas.width;
+                img.height = canvas.height;
+            }
+            //determinare si afisare pozitii maxime pentru introducerea textului
+            document.getElementById("pozitiiMaxime").innerText = `(x maxim: ${canvas.height}; y maxim: ${canvas.width})`;
+            document.getElementById("xText").max = canvas.width;
+            document.getElementById("yText").max = canvas.height;
+            //determinare si afisare dimensiuni imagine incarcata
+            document.getElementById("dimensiuniActuale").innerText = `Dimensiunile imaginii sunt: ${img.width} x ${img.height}`;
+            //selectareTotala();
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            //resetare selectie
+            selectieX = 0;
+            selectieY = 0;
+            selectieW = canvas.width;
+            selectieH = canvas.height;
+            //desenare selectie totala
+            context.beginPath();
+            context.strokeStyle = "magenta";
+            context.lineWidth = 3;
+            context.rect(selectieX, selectieY, selectieW, selectieH);
+            context.stroke();
+            //activare descarcare imagine
+            document.getElementById("btnLinkDownload").hidden = false;
+            //setare dimensiuni scalare
+            document.getElementById("scalareLungime").value = img.height;
+            document.getElementById("scalareLatime").value = img.width;
+            //activare setari
+            document.getElementById("histogramContainer").hidden = false;
+            document.getElementById("selectionContainer").hidden = false;
+            document.getElementById("efectContainer").hidden = false;
+            document.getElementById("textContainer").hidden = false;
+            document.getElementById("scaleContainer").hidden = false;
+            //selectie totala
+            selectareTotala();
+        };
 
-        //activare descarcare imagine
-        document.getElementById("btnLinkDownload").hidden = false;
-        //setare dimensiuni scalare
-        document.getElementById("scalareLungime").value = img.height;
-        document.getElementById("scalareLatime").value = img.width;
-
-        //activare setari
-        document.getElementById("histogramContainer").hidden = false;
-        document.getElementById("selectionContainer").hidden = false;
-        document.getElementById("efectContainer").hidden = false;
-        document.getElementById("textContainer").hidden = false;
-        document.getElementById("scaleContainer").hidden = false;
-
-        context.drawImage(img, 0, 0, canvas.width, canvas.height);
-        //selectie totala
-        selectareTotala();
     });
     reader.readAsDataURL(e.target.files[0]);
 });
