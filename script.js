@@ -28,8 +28,8 @@ document.getElementById("fileBrowser").addEventListener("change", function (e) {
             while (canvas.width > 750 || canvas.height > 750) {
                 canvas.width = canvas.width * 0.9;
                 canvas.height = canvas.height * 0.9;
-                img.width = canvas.width;
-                img.height = canvas.height;
+                //img.width = canvas.width;
+                //img.height = canvas.height;
             }
             //determinare si afisare pozitii maxime pentru introducerea textului
             document.getElementById("pozitiiMaxime").innerText = `(x maxim: ${canvas.height}; y maxim: ${canvas.width})`;
@@ -78,7 +78,6 @@ function selectareTotala() {
     selectieY = 0;
     selectieW = canvas.width;
     selectieH = canvas.height;
-    // console.log("selectie totala", selectieX, selectieY, selectieW, selectieH);
     //desenare selectie totala
     context.beginPath();
     context.strokeStyle = "magenta";
@@ -263,7 +262,7 @@ function adaugareText() {
 }
 
 function calculareLatime() {
-    if (document.getElementById("scalareLungime").value < 50 || document.getElementById("scalareLungime").value > 2000) {
+    if (document.getElementById("scalareLungime").value < 50 || document.getElementById("scalareLungime").value > 5000) {
         alert("Dimensiuni incorecte!");
         scaleable = false;
         return;
@@ -276,7 +275,7 @@ function calculareLatime() {
 }
 
 function calculareLungime() {
-    if (document.getElementById("scalareLatime").value < 50 || document.getElementById("scalareLatime").value > 2000) {
+    if (document.getElementById("scalareLatime").value < 50 || document.getElementById("scalareLatime").value > 5000) {
         alert("Dimensiuni incorecte!");
         scaleable = false;
         return;
@@ -295,8 +294,8 @@ function scalareImagine() {
     }
     canvas.height = document.getElementById("scalareLungime").value;
     canvas.width = document.getElementById("scalareLatime").value;
-    img.width = canvas.width;
-    img.height = canvas.height;
+    img.width = document.getElementById("scalareLatime").value;
+    img.height = document.getElementById("scalareLungime").value;
     document.getElementById("dimensiuniActuale").innerText = `Dimensiunile imaginii sunt: ${img.width} x ${img.height}`;
     //salvare modificari canvas in imagine
     context.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -306,6 +305,7 @@ function scalareImagine() {
 
 function descarcaImagine() {
     //setare sursa imagine pentru descarcare
+    console.log(img.height)
     document.getElementById("linkDownload").href = img.src;
 }
 
