@@ -401,6 +401,11 @@ function decupareSelectie() {
     document.getElementById("scalareLatime").value = img.width;
 }
 
+function changeTextSizePreview() {
+    //afisare dimensiune selectata
+    document.getElementById('textSize').innerText =  `${document.getElementById('dimensiuneText').value} px.`;
+}
+
 //evenimente butoane
 document.getElementById("btnSelectareTotala").addEventListener("click", selectareTotala);
 document.getElementById("btnStergereSelectie").addEventListener("click", stergereSelectie);
@@ -412,6 +417,9 @@ document.getElementById("btnAdaugareText").addEventListener("click", adaugareTex
 document.getElementById("btnScalare").addEventListener("click", scalareImagine);
 document.getElementById("btnLinkDownload").addEventListener("click", descarcaImagine);
 document.getElementById('btnDecupareSelectie').addEventListener('click', decupareSelectie);
+
+//eveniment modificare dimensiune text
+document.getElementById('dimensiuneText').addEventListener('input', changeTextSizePreview);
 
 //evenimente scalare
 document.getElementById('scalareLungime').addEventListener('change', calculareLatime);
