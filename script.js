@@ -1,3 +1,5 @@
+//UDRIS BOGDAN PETRISOR - TEMA 4
+
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 var img = new Image();
@@ -17,10 +19,10 @@ document.getElementById("fileBrowser").addEventListener("change", function (e) {
     reader.addEventListener('load', function (event) {
         img = new Image();
         img.src = event.target.result;
+        //creare copie imagine
+        copieImg = new Image();
+        copieImg.src = event.target.result;
         img.onload = function () {
-            //creare copie imagine
-            copieImg = new Image();
-            copieImg.src = img.src;
             //redimensionare canvas pastrand proportiile imaginii
             canvas.width = img.width;
             canvas.height = img.height;
@@ -92,6 +94,19 @@ function selectareTotala() {
 //restaurare imaine initiala
 function restaurareImagine() {
     img.src = copieImg.src;
+    img.width = copieImg.width;
+    img.height = copieImg.height;
+
+    //redimensionare canvas pastrand proportiile imaginii
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    while (canvas.width > 750 || canvas.height > 750) {
+        canvas.width = canvas.width * 0.9;
+        canvas.height = canvas.height * 0.9;
+        //img.width = canvas.width;
+        //img.height = canvas.height;
+    }
     selectareTotala();
 }
 
